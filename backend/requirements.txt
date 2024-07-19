@@ -1,0 +1,7 @@
+Django==3.2.16
+djangorestframework==3.12.4
+djoser==2.2.2
+requests==2.26.0
+pillow==10.4.0
+django-filter==23.1
+python-dotenv==1.0.1
