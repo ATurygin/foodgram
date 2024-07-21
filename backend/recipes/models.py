@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
 
+
 User = get_user_model()
 IMAGE_STORAGE = settings.FOODGRAM.get('IMAGE_STORAGE')
 
@@ -43,8 +44,8 @@ class Ingredient(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Ингридиент'
-        verbose_name_plural = 'ингридиенты'
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'ингредиенты'
         constraints = [
             UniqueConstraint(fields=['name', 'measurement_unit'],
                              name='unique_ingredient')
@@ -78,17 +79,27 @@ class Recipe(models.Model):
     )
     ingredients = models.ManyToManyField(
         Ingredient,
-        verbose_name='Ингридиенты',
+        verbose_name='Ингредиенты',
         through='Recipe_Ingredient'
     )
     tags = models.ManyToManyField(
         Tag,
         verbose_name='Теги'
     )
+    pub_date = models.DateTimeField(
+        verbose_name='Дата публикации',
+        auto_now_add=True
+    )
+    times_favorited = models.IntegerField(
+        verbose_name='Добавлен в избранное',
+        blank=True,
+        default=0
+    )
 
     class Meta:
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+        ordering = ['-pub_date']
 
     def __str__(self):
         return f'{self.author} - {self.name}'
@@ -109,6 +120,8 @@ class Recipe_Ingredient(models.Model):
     )
 
     class Meta:
+        verbose_name = 'Ингредиент рецепта'
+        verbose_name_plural = 'ингредиенты рецепта'
         constraints = [
             UniqueConstraint(fields=['recipe', 'ingredient'],
                              name='unique_recipe_ingredient')
