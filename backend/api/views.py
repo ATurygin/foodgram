@@ -49,10 +49,10 @@ def m2m_set(related_manager_name, already_added_err):
             view = args[0]
             request = args[1]
             obj = view.get_object()
-            func(*args, **kwargs)
             manager = getattr(request.user, related_manager_name)
             if obj in manager.all():
                 raise ValidationError(already_added_err)
+            func(*args, **kwargs)
             manager.add(obj)
             serializer = view.get_serializer(instance=obj,
                                              context={'request': request})
