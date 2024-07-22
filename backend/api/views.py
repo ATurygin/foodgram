@@ -255,7 +255,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = self.get_object()
         if not hasattr(recipe, 'shortlink'):
             ShortLink.objects.create(recipe=recipe)
-        url = (f'https://{settings.ALLOWED_HOSTS[0]}/'
+        domain = settings.FOODGRAM['REDIRECT_URL']
+        url = (f'{domain}/'
                f's/{recipe.shortlink.link_uri}/')
         data = {'short-link': url}
         return Response(data, status=status.HTTP_200_OK)
@@ -266,6 +267,7 @@ class RecipeLinkView(APIView):
 
     def get(self, request, slug):
         link_obj = get_object_or_404(ShortLink, link_uri=slug)
-        url = (f'https://{settings.ALLOWED_HOSTS[0]}/'
+        domain = settings.FOODGRAM['REDIRECT_URL']
+        url = (f'{domain}/'
                f'recipes/{link_obj.recipe.id}')
         return redirect(url)
