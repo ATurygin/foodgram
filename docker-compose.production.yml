@@ -13,13 +13,13 @@ services:
       - db_data:/var/lib/postgresql/data
   frontend:
     container_name: foodgram-front
-    build: ./frontend
+    image: lifeisastruggle64/foodgram_frontend
     command: cp -r /app/build/. /static
     volumes:
       - static:/static/
   backend:
     container_name: foodgram-back
-    build: ./backend
+    image: lifeisastruggle64/foodgram_backend
     env_file: .env
     volumes:
       - static:/staticfiles/
@@ -28,9 +28,9 @@ services:
       - db
   gateway:
     container_name: foodgram-proxy
-    build: ./infra/
+    image: lifeisastruggle64/foodgram_gateway
     ports:
-      - 8000:80
+      - 8080:80
     volumes:
       - static:/static/
       - media:/mediafiles/

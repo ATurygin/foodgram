@@ -62,6 +62,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGIN_REGEXES = [
     os.getenv('CORS_ORIGIN_REGEX', r'^http://localhost/.*$'),
 ]
+CORS_URLS_REGEX = r'^/api/.*$|^/s/.*$'
 
 ROOT_URLCONF = 'backend.urls'
 
