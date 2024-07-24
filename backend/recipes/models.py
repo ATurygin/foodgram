@@ -1,16 +1,11 @@
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
 
+from .constants import AMOUNT_ERR_MSG, COOCKING_TIME_ERR_MSG, IMAGE_STORAGE
 
 User = get_user_model()
-IMAGE_STORAGE = settings.FOODGRAM.get('IMAGE_STORAGE')
-
-COOCKING_TIME_ERR_MSG = 'Время приготовления не может быть меньше 1'
-
-AMOUNT_ERR_MSG = 'Amount не может быть меньше 1'
 
 
 class Tag(models.Model):

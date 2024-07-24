@@ -1,5 +1,3 @@
-from functools import wraps
-
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -13,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from recipes.models import Ingredient, Recipe, Tag
+from .decorators import m2m_set, m2m_unset
 from .filters import IngredientFilterSet, RecipeFilterSet
 from .models import ShortLink
 from .pagination import FoodgramPagination
@@ -40,43 +39,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = IngredientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = IngredientFilterSet
-
-
-def m2m_set(related_manager_name, already_added_err):
-    def m2m_set_wrapper(func):
-        @wraps(func)
-        def inner(*args, **kwargs):
-            view = args[0]
-            request = args[1]
-            obj = view.get_object()
-            manager = getattr(request.user, related_manager_name)
-            if obj in manager.all():
-                raise ValidationError(already_added_err)
-            func(*args, **kwargs)
-            manager.add(obj)
-            serializer = view.get_serializer(instance=obj,
-                                             context={'request': request})
-            return Response(serializer.data,
-                            status=status.HTTP_201_CREATED)
-        return inner
-    return m2m_set_wrapper
-
-
-def m2m_unset(related_manager_name, delete_nonexist_err):
-    def m2m_unset_wrapper(func):
-        @wraps(func)
-        def inner(*args, **kwargs):
-            view = args[0]
-            request = args[1]
-            obj = view.get_object()
-            func(*args, **kwargs)
-            manager = getattr(request.user, related_manager_name)
-            if obj not in manager.all():
-                raise ValidationError(delete_nonexist_err)
-            manager.remove(obj)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return inner
-    return m2m_unset_wrapper
 
 
 class FoodgramUserDetailViewSet(UserViewSet):
