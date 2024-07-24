@@ -22,6 +22,8 @@ Frontend-часть проекта - это SPA на JavaScript. Backend-час�
 + **Python 3**
 + **Django**
 + **Django REST Framework**
++ **Docker**
++ **nginx**
 
 ### Авторы
 Александр Турыгин
