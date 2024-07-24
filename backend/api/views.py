@@ -171,9 +171,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             permission_classes=[IsAuthenticated])
     @m2m_set('favorites', RECIPE_ALREADY_IN_FAVORITES)
     def favorite(self, request, pk=None):
-        instance = self.get_object()
-        instance.times_favorited += 1
-        instance.save()
+        return
 
     @favorite.mapping.delete
     @m2m_unset('favorites', DELETE_NONEXIST_FAVORITE)
