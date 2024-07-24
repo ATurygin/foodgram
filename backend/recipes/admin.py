@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.decorators import display
 
 from .models import Ingredient, Recipe, Recipe_Ingredient, Tag
 
@@ -30,6 +31,10 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = (IngredientsInline,)
     date_hierarchy = 'pub_date'
     readonly_fields = ('times_favorited', 'pub_date')
+
+    @display(description='Добавлен в избранное')
+    def times_favorited(self, obj):
+        return obj.is_favorited_by.count()
 
 
 admin.site.register(Ingredient, IngredientAdmin)
