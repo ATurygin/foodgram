@@ -14,8 +14,6 @@ docker compose exec backend python3 manage.py collectstatic
 docker compose exec backend cp -r static/. /staticfiles/static/
 ```
 
-В "прод" окружении проект доступен по адресу https://foodgram.aturygin-petprojects.ru/
-
 ### Технологии
 Frontend-часть проекта - это SPA на JavaScript. Backend-часть - это python-приложение, реализующее REST API для взаимодействия с Frontend'ом.
 В проекте использованы:
@@ -27,4 +25,4 @@ Frontend-часть проекта - это SPA на JavaScript. Backend-час�
 
 ### Авторы
 Александр Турыгин
-whothehellcares@yandex.ru
+turygin@list.ru
